@@ -8,23 +8,8 @@ function setup() {
   capture.size(windowWidth * 0.8, windowHeight * 0.8); // 設定影像大小為視窗的 80%
   capture.hide(); // 隱藏原始的 HTML 視訊元素
 
-  // 等待攝影機影像準備好後初始化 overlayGraphics
-  capture.elt.addEventListener('loadeddata', () => {
-    overlayGraphics = createGraphics(capture.width, capture.height);
-    overlayGraphics.background(0); // 設定背景為黑色
-
-    // 繪製圓形圖案
-    for (let x = 0; x < overlayGraphics.width; x += 20) {
-      for (let y = 0; y < overlayGraphics.height; y += 20) {
-        let r = map(x, 0, overlayGraphics.width, 0, 255); // 根據 x 計算紅色分量
-        let g = map(y, 0, overlayGraphics.height, 0, 255); // 根據 y 計算綠色分量
-        let b = map(x + y, 0, overlayGraphics.width + overlayGraphics.height, 0, 255); // 根據 x+y 計算藍色分量
-        overlayGraphics.fill(r, g, b); // 設定圓的顏色
-        overlayGraphics.noStroke();
-        overlayGraphics.ellipse(x + 10, y + 10, 15, 15); // 繪製圓，中心點偏移 10 以置中
-      }
-    }
-  });
+  // 建立與攝影機影像相同大小的圖形緩衝區
+  overlayGraphics = createGraphics(capture.width, capture.height);
 }
 
 function draw() {
@@ -44,16 +29,29 @@ function draw() {
     capture.height
   );
 
-  // 繪製 overlayGraphics 在攝影機影像上方
-  if (overlayGraphics) {
-    image(
-      overlayGraphics,
-      (width - capture.width) / 2, // 與攝影機影像對齊 (水平)
-      (height - capture.height) / 2, // 與攝影機影像對齊 (垂直)
-      capture.width,
-      capture.height
-    );
+  // 更新 overlayGraphics 的內容
+  overlayGraphics.loadPixels();
+  for (let x = 0; x < overlayGraphics.width; x += 20) {
+    for (let y = 0; y < overlayGraphics.height; y += 20) {
+      let index = (y * overlayGraphics.width + x) * 4; // 計算像素索引
+      let r = capture.pixels[index]; // 提取紅色分量
+      let g = capture.pixels[index + 1]; // 提取綠色分量
+      let b = capture.pixels[index + 2]; // 提取藍色分量
+      overlayGraphics.fill(r, g, b); // 設定圓的顏色
+      overlayGraphics.noStroke();
+      overlayGraphics.ellipse(x + 10, y + 10, 15, 15); // 繪製圓，中心點偏移 10 以置中
+    }
   }
+  overlayGraphics.updatePixels();
+
+  // 繪製 overlayGraphics 在攝影機影像上方
+  image(
+    overlayGraphics,
+    (width - capture.width) / 2, // 與攝影機影像對齊 (水平)
+    (height - capture.height) / 2, // 與攝影機影像對齊 (垂直)
+    capture.width,
+    capture.height
+  );
 
   pop(); // 恢復繪圖設定
 }
@@ -61,20 +59,5 @@ function draw() {
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight); // 當視窗大小改變時調整畫布
   capture.size(windowWidth * 0.8, windowHeight * 0.8); // 調整影像大小
-
-  // 重新建立 overlayGraphics 並繪製圓形圖案
-  if (overlayGraphics) {
-    overlayGraphics = createGraphics(capture.width, capture.height);
-    overlayGraphics.background(0); // 設定背景為黑色
-    for (let x = 0; x < overlayGraphics.width; x += 20) {
-      for (let y = 0; y < overlayGraphics.height; y += 20) {
-        let r = map(x, 0, overlayGraphics.width, 0, 255);
-        let g = map(y, 0, overlayGraphics.height, 0, 255);
-        let b = map(x + y, 0, overlayGraphics.width + overlayGraphics.height, 0, 255);
-        overlayGraphics.fill(r, g, b);
-        overlayGraphics.noStroke();
-        overlayGraphics.ellipse(x + 10, y + 10, 15, 15);
-      }
-    }
-  }
+  overlayGraphics = createGraphics(capture.width, capture.height); // 調整 overlayGraphics 大小
 }
