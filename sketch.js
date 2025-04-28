@@ -10,8 +10,8 @@ function setup() {
 
   // 建立與攝影機影像相同大小的圖形緩衝區
   overlayGraphics = createGraphics(capture.width, capture.height);
-  overlayGraphics.fill(255, 0, 0, 150); // 半透明紅色
-  overlayGraphics.rect(0, 0, overlayGraphics.width, overlayGraphics.height); // 填滿紅色背景
+  //overlayGraphics.fill(255, 0, 0, 150); // 半透明紅色
+  //overlayGraphics.rect(0, 0, overlayGraphics.width, overlayGraphics.height); // 填滿紅色背景
 }
 
 function draw() {
