@@ -38,7 +38,8 @@ function draw() {
       let r = capture.pixels[index]; // 提取紅色分量
       let g = capture.pixels[index + 1]; // 提取綠色分量
       let b = capture.pixels[index + 2]; // 提取藍色分量
-      overlayGraphics.fill(r, g, b); // 設定圓的顏色
+      let gray = (r + g + b) / 3; // 計算灰階值
+      overlayGraphics.fill(gray); // 設定圓的顏色為灰階值
       overlayGraphics.noStroke();
       overlayGraphics.ellipse(x + 10, y + 10, 15, 15); // 繪製圓，中心點偏移 10 以置中
     }
