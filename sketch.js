@@ -48,5 +48,5 @@ function windowResized() {
   capture.size(windowWidth * 0.8, windowHeight * 0.8); // 調整影像大小
   overlayGraphics = createGraphics(capture.width, capture.height); // 調整 overlayGraphics 大小
   overlayGraphics.fill(255, 0, 0, 150); // 半透明紅色
-  overlayGraphics.rect(0, 0, overlayGraphics.width, overlayGraphics.height); // 填滿紅色背景
+  //overlayGraphics.rect(0, 0, overlayGraphics.width, overlayGraphics.height); // 填滿紅色背景
 }
