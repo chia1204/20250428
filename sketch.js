@@ -35,13 +35,18 @@ function draw() {
   for (let x = 0; x < capture.width; x += 20) {
     for (let y = 0; y < capture.height; y += 20) {
       let index = (y * capture.width + x) * 4; // 計算像素索引
-      let r = capture.pixels[index]; // 提取紅色分量
+      let r = 0; // R 固定為 0
       let g = capture.pixels[index + 1]; // 提取綠色分量
-      let b = capture.pixels[index + 2]; // 提取藍色分量
-      let gray = (r + g + b) / 3; // 計算灰階值
-      overlayGraphics.fill(gray); // 設定圓的顏色為灰階值
+      let b = 100; // B 固定為 100
+
+      // 繪製方框
+      overlayGraphics.fill(r, g, b); // 設定方框顏色
       overlayGraphics.noStroke();
-      overlayGraphics.ellipse(x + 10, y + 10, 15, 15); // 繪製圓，中心點偏移 10 以置中
+      overlayGraphics.rect(x, y, 18, 18); // 繪製方框
+
+      // 繪製黑色圓
+      overlayGraphics.fill(0); // 設定圓的顏色為黑色
+      overlayGraphics.ellipse(x + 9, y + 9, 15, 15); // 繪製圓，中心點偏移 9 以置中
     }
   }
 
