@@ -11,9 +11,7 @@ function setup() {
   // 建立與攝影機影像相同大小的圖形緩衝區
   overlayGraphics = createGraphics(capture.width, capture.height);
   overlayGraphics.fill(255, 0, 0, 150); // 半透明紅色
-  overlayGraphics.textSize(32);
-  overlayGraphics.textAlign(CENTER, CENTER);
-  overlayGraphics.text('Overlay Text', overlayGraphics.width / 2, overlayGraphics.height / 2);
+  overlayGraphics.rect(0, 0, overlayGraphics.width, overlayGraphics.height); // 填滿紅色背景
 }
 
 function draw() {
@@ -50,7 +48,5 @@ function windowResized() {
   capture.size(windowWidth * 0.8, windowHeight * 0.8); // 調整影像大小
   overlayGraphics = createGraphics(capture.width, capture.height); // 調整 overlayGraphics 大小
   overlayGraphics.fill(255, 0, 0, 150); // 半透明紅色
-  overlayGraphics.textSize(32);
-  overlayGraphics.textAlign(CENTER, CENTER);
-  overlayGraphics.text('Overlay Text', overlayGraphics.width / 2, overlayGraphics.height / 2);
+  overlayGraphics.rect(0, 0, overlayGraphics.width, overlayGraphics.height); // 填滿紅色背景
 }
