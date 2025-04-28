@@ -30,10 +30,11 @@ function draw() {
   );
 
   // 更新 overlayGraphics 的內容
-  overlayGraphics.loadPixels();
-  for (let x = 0; x < overlayGraphics.width; x += 20) {
-    for (let y = 0; y < overlayGraphics.height; y += 20) {
-      let index = (y * overlayGraphics.width + x) * 4; // 計算像素索引
+  capture.loadPixels(); // 確保攝影機影像的像素數據已加載
+  overlayGraphics.clear(); // 清除之前的內容
+  for (let x = 0; x < capture.width; x += 20) {
+    for (let y = 0; y < capture.height; y += 20) {
+      let index = (y * capture.width + x) * 4; // 計算像素索引
       let r = capture.pixels[index]; // 提取紅色分量
       let g = capture.pixels[index + 1]; // 提取綠色分量
       let b = capture.pixels[index + 2]; // 提取藍色分量
@@ -42,7 +43,6 @@ function draw() {
       overlayGraphics.ellipse(x + 10, y + 10, 15, 15); // 繪製圓，中心點偏移 10 以置中
     }
   }
-  overlayGraphics.updatePixels();
 
   // 繪製 overlayGraphics 在攝影機影像上方
   image(
